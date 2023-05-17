@@ -20,7 +20,8 @@ class Visit extends Model
         'employee_amount',
         'is_employee_visit',
         'patient_name',
-        'treatment_type_id'
+        'treatment_type_id',
+        'exceeded_amount'
     ];
 
 

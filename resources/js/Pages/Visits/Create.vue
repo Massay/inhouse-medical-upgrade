@@ -134,6 +134,7 @@ function submit() {
             employee_amount: employeeAmount,
             is_employee_visit: (form.visit_type_id == 1) ? 1 : 0,
             treatment_type_id: treatment_type.value,
+            exceeded_amount: (form.amount  > selectedType.max_credit_limit) ? form.amount  - selectedType.max_credit_limit : null,
             patient_name: (form.visit_type_id == 1) ? ((selectedEmployee) ? selectedEmployee.firstname + ' ' + ((selectedEmployee.middlename) ? selectedEmployee.middlename : '') + ' ' + selectedEmployee.lastname : '') : (selectedRelative) ? selectedRelative.name : ''
 
         }))

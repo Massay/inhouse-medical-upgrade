@@ -34,6 +34,7 @@ class VisitFormRequest extends FormRequest
              'relative_id' => 'required_if:visit_type_id,2',
              'patient_name' => 'required',
              'is_employee_visit' => 'required',
+             'exceeded_amount' => 'nullable'
         ];
     }
 }
