@@ -75,6 +75,12 @@ Route::middleware([
 
     Route::prefix('reports')->group(function () {
         Route::get('/', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('/monthly', [ReportsController::class, 'monthly'])->name('reports.monthly');
+        Route::get('/family', [ReportsController::class, 'familyReport'])->name('reports.family');
+        Route::get('/custom-date', [ReportsController::class, 'customDate'])->name('reports.custom_date');
+        Route::get('/treatment_type', [ReportsController::class, 'treatmentType'])->name('reports.treatment_type');
+
+
     });
 
     Route::prefix('partners')->group(function () {
