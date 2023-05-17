@@ -3,7 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 
 
-import {watch, onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 
 
 
@@ -53,14 +53,21 @@ let selectedRelative = null
 
 
 onMounted(() => {
-    if (props.visit.is_employee_visit) {
+
+
+    selectedEmployee = props.employees.find((item) => item.id == props.visit.employee_id)
+
+
+    if (props.visit.is_employee_visit == 1) {
         form.visit_type_id = 1
         form.relative_id = null
     } else {
         form.visit_type_id = 2
+        console.log("selected employee", selectedEmployee);
+        console.log("relative id", form.relative_id);
+        selectedRelative = selectedEmployee.relatives.find((item) => item.id == form.relative_id)
+        console.log("selectedRelative", selectedRelative);
     }
-
-    selectedEmployee = props.employees.find((item) => item.id == props.visit.employee_id)
 
     companyAmount = props.visit.company_amount
     employeeAmount = props.visit.employee_amount
@@ -68,16 +75,20 @@ onMounted(() => {
     // get the current policy infor from treatment type id
 
     selectedType = props.treatment_types.find((item) => item.id == form.treatment_type_id)
+
+    if(selectedType != null){
         currentTypePolicy = selectedType.policy
-        if (currentTypePolicy != null) {
-            if (currentTypePolicy.name.includes('90')) {
-                companyAmount = form.amount * 0.9
-                employeeAmount = form.amount * 0.1
-            } else {
-                companyAmount = form.amount
-                employeeAmount = 0
-            }
+    }
+
+    if (currentTypePolicy != null) {
+        if (currentTypePolicy.name.includes('90')) {
+            companyAmount = form.amount * 0.9
+            employeeAmount = form.amount * 0.1
+        } else {
+            companyAmount = form.amount
+            employeeAmount = 0
         }
+    }
 
 })
 
@@ -138,6 +149,10 @@ watch(
     () => form.visit_type_id, // use a getter like this
     () => {
         selectedRelative = null
+        if(form.visit_type_id == 1){
+            form.relative_id = null
+        }
+
         // selectedEmployee = props.employees.find((item) => item.id == employee_id)
         // form.relative_id = null //
     }
@@ -155,6 +170,19 @@ watch(
 
 //form.relative_id
 function submit() {
+let patient_name = null;
+  if(form.visit_type_id == 2){
+    selectedRelative = selectedEmployee.relatives.find((item) => item.id == form.relative_id)
+    patient_name =  selectedRelative.name
+  }
+
+  if(form.visit_type_id == 1){
+    patient_name =  selectedEmployee.firstname + ' ' + ((selectedEmployee.middlename) ? selectedEmployee.middlename: '') + ' ' + selectedEmployee.lastname
+  }
+
+  console.log('employee', selectedEmployee)
+  console.log('visit_type_id', form.visit_type_id)
+
     form
         .transform((data) => ({
             ...data,
@@ -162,7 +190,7 @@ function submit() {
             company_amount: companyAmount,
             employee_amount: employeeAmount,
             is_employee_visit: (form.visit_type_id == 1) ? 1 : 0,
-            patient_name: (form.visit_type_id == 1) ? ((selectedEmployee) ? selectedEmployee.firstname + ' ' + ((selectedEmployee.middlename) ? selectedEmployee.middlename : '') + ' ' + selectedEmployee.lastname : '') : (selectedRelative) ? selectedRelative.name : ''
+            patient_name: patient_name
 
         }))
         .put(route('visits.update', props.visit.id))
@@ -186,22 +214,24 @@ function submit() {
                     </svg>
 
 
-                    <h2 class="font-semibold leading-tight">Edit</h2>
+                    <h2>Edit Transaction</h2>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
-                    <h2>{{ visit.patient_name }}</h2>
+                    <h2 class="font-semibold leading-tight">{{ visit.patient_name }}</h2>
                 </div>
                 <!-- <Link as="button" :href="route('visits.create')">Add Visit Entry</Link> -->
             </div>
 
         </template>
 
-        <div class="py-12 px-4">
+        <div class="py-12 px-4 max-w-[88%] mx-auto bg-gray-200">
             <div class="grid grid-cols-2 gap-2">
                 <div class="">
-                    {{ visit }}
+                    <!-- {{ visit }} -->
+
+                    <!-- {{  form  }} -->
 
                     <form @submit.prevent="submit" class="flex flex-col space-y-2">
                         <div class="flex space-x-2">
@@ -281,32 +311,32 @@ function submit() {
                     </form>
                 </div>
 
-                <div>
+                <div class="bg-slate-700 rounded-xl p-3 text-gray-50 font-semibold">
                     <h1 class="text-center font-semibold">Display Data</h1>
                     <!-- {{  selectedType  }} -->
-                    {{ errors }}
-
                     <div v-if="selectedType">
-                        Treatment Type: <span class="capitalize font-semibold">{{ selectedType.name }}</span>
+                       <span class="font-extrabold text-red-200 text-lg font-mono">Selected Treatment Type:</span> <span class="capitalize font-semibold">{{ selectedType.name }}</span>
                     </div>
 
                     <div v-if="selectedType" class="flex space-x-2">
-                        <span>Max Amount:</span> <span class="font-semibold">{{ selectedType.max_credit_limit }}</span>
+                        <span class="font-extrabold text-red-200 text-lg font-mono">Max Amount:</span> <span class="font-semibold">{{ selectedType.max_credit_limit }}</span>
                         <span v-if="selectedType.perPerson">Per Person</span>
                         <span v-else>Per Family</span>
                     </div>
                     <div v-if="currentTypePolicy">
-                        <span>Policy Type:</span> <span class="font-semibold">{{ currentTypePolicy.name }}</span>
+                        <span class="font-extrabold text-red-200 text-lg font-mono">Policy Type:</span> <span class="font-semibold">{{ currentTypePolicy.name }}</span>
                     </div>
-                    <h1>Amount: <span class="font-semibold">{{ form.amount }}</span></h1>
-                    <h1>Company Amount: <span class="font-semibold">{{ companyAmount }}</span></h1>
-                    <h1>Employee Amount: <span class="font-semibold">{{ employeeAmount }}</span></h1>
+                    <h1><span class="font-extrabold text-red-200 text-lg font-mono">Amount:</span> <span class="font-semibold">{{ form.amount }}</span></h1>
+                    <h1><span class="font-extrabold text-red-200 text-lg font-mono">Company Amount: </span> <span class="font-semibold">{{ companyAmount }}</span></h1>
+                    <h1><span  class="font-extrabold text-red-200 text-lg font-mono" >Employee Amount:</span> <span class="font-semibold">{{ employeeAmount }}</span></h1>
 
                     <div v-if="selectedEmployee">
+                    <span class="font-extrabold text-red-200 text-lg font-mono">Patient Name:</span>
                         {{ selectedEmployee.firstname }} {{ selectedEmployee.middlename }} {{ selectedEmployee.lastname }}
                     </div>
 
                     <div v-if="selectedRelative">
+                        <span class="font-extrabold text-red-200 text-lg font-mono">Patient Name:</span>
                         <span>{{ selectedRelative.name }}</span>
                     </div>
 

@@ -30,6 +30,7 @@ class VisitController extends Controller
     public function store(VisitFormRequest $request)
     {
         $data = $request->validated();
+
         //dd($data);
         Visit::create($data);
         return to_route('visits.index');

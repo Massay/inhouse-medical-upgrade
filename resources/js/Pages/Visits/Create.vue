@@ -111,8 +111,7 @@ watch(
     () => form.visit_type_id, // use a getter like this
     () => {
         selectedRelative = null
-        // selectedEmployee = props.employees.find((item) => item.id == employee_id)
-        // form.relative_id = null //
+        form.relative_id = null
     }
 )
 
@@ -125,24 +124,20 @@ watch(
 )
 
 
-// const patientName = computed( () => {
-//      return (form.visit_type_id == 1 ) ? (selectedEmployee)?selectedEmployee.firstname + ' '+ selectedEmployee.middlename +' ' + selectedEmployee.lastname  : '' : (selectedRelative) ? selectedRelative.name : ''
-// })
-
-
 //form.relative_id
-function submit(){
+function submit() {
     form
-    .transform((data)=>({
-           ...data,
-          policy_id: (currentTypePolicy) ? currentTypePolicy.id : null,
-          company_amount: companyAmount,
-          employee_amount: employeeAmount,
-          is_employee_visit: (form.visit_type_id == 1) ? 1 : 0,
-          patient_name: (form.visit_type_id == 1) ? ((selectedEmployee) ? selectedEmployee.firstname + ' ' + ( (selectedEmployee.middlename) ? selectedEmployee.middlename : '' ) + ' '+ selectedEmployee.lastname : ''  ): (selectedRelative) ? selectedRelative.name : ''
+        .transform((data) => ({
+            ...data,
+            policy_id: (currentTypePolicy) ? currentTypePolicy.id : null,
+            company_amount: companyAmount,
+            employee_amount: employeeAmount,
+            is_employee_visit: (form.visit_type_id == 1) ? 1 : 0,
+            treatment_type_id: treatment_type.value,
+            patient_name: (form.visit_type_id == 1) ? ((selectedEmployee) ? selectedEmployee.firstname + ' ' + ((selectedEmployee.middlename) ? selectedEmployee.middlename : '') + ' ' + selectedEmployee.lastname : '') : (selectedRelative) ? selectedRelative.name : ''
 
-    }))
-    .post(route('visits.store'))
+        }))
+        .post(route('visits.store'))
 }
 
 </script>
@@ -247,44 +242,98 @@ function submit(){
                         <div class="flex justify-end">
                             <!-- <Link  method="post"  >Add
                             Patient Record</Link> -->
-                            <button class="bg-slate-800 text-gray-50 font-semibold px-8 py-3 rounded-2xl" type="submit">Add Patient Record</button>
+                            <button :disabled="form.processing"
+                                class="bg-slate-800 text-gray-50 font-semibold px-8 py-3 rounded-2xl" type="submit">Add
+                                Patient Record</button>
                         </div>
                     </form>
                 </div>
 
-                <div>
+                <div class="text-xl rounded-xl p-2">
                     <h1 class="text-center font-semibold">Display Data</h1>
-                    <!-- {{  selectedType  }} -->
-                    {{  errors  }}
+                    <span  v-if="selectedType && (form.amount > selectedType.max_credit_limit)" class="flex flex-col items-center justify-center border my-2 border-red-600 bg-red-100 p-2 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-red-700">
+                            <path fill-rule="evenodd"
+                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <p
+                        class="font-semibold overflow-hidden  w-full  text-gray-800 text-center  ">
+                        Amount exceeded by <span class="font-extrabold bg-slate-950 text-gray-50 p-1 ">{{ form.amount -
+                            selectedType.max_credit_limit }}</span>
+                    </p>
+                    </span>
 
-                    <div v-if="selectedType">
-                        Treatment Type: <span class="capitalize font-semibold">{{ selectedType.name }}</span>
+                    <div class="border border-gray-500 rounded-3xl grid grid-cols-2 gap-3 p-4">
+                        <div class="border border-gray-500 rounded-3xl grid place-content-center">
+                            <div v-if="selectedType" class="flex flex-col items-center justify-center">
+                                <img src="/images/svg/admissions.svg" alt="">
+                                Treatment Type: <span class="capitalize font-semibold">{{ selectedType.name }}</span>
+                            </div>
+
+                        </div>
+                        <div class="border border-gray-400 rounded-3xl grid place-content-center">
+
+                            <div v-if="selectedType" class="flex space-x-2 flex-col items-center">
+                                <img src="/images/svg/bills.svg" alt="">
+                                <span>Max Amount:</span> <span class="font-semibold">{{ selectedType.max_credit_limit
+                                }}</span>
+                                <span v-if="selectedType.perPerson">Per Person</span>
+                                <span v-else>Per Family</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-300 rounded-3xl grid place-content-center bg-blue-950 py-2">
+                            <div v-if="currentTypePolicy"
+                                class="flex flex-col text-gray-50 items-center bg-red-800 rounded-xl p-2">
+                                <img src="/images/svg/mobile_clinic.svg" class="bg-white rounded-full p-1" alt="">
+                                <span>Policy Type:</span> <span class="font-extrabold">{{ currentTypePolicy.name }}</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-400 rounded-3xl grid place-content-center">
+                            <div class="flex flex-col items-center">
+                                <img src="/images/svg/money_bag.svg" alt="">
+                                <h1>Amount: <span class="font-semibold">{{ form.amount }}</span></h1>
+
+                            </div>
+
+                        </div>
+                        <div class="border border-gray-400 rounded-3xl grid place-content-center">
+
+                            <div v-if="selectedEmployee" class="flex flex-col items-center">
+                                <img src="/images/svg/admissions.svg" alt="">
+                                <span class="font-semibold">{{ selectedEmployee.firstname }} {{ selectedEmployee.middlename
+                                }} {{
+    selectedEmployee.lastname }}</span>
+                            </div>
+                        </div>
+                        <div v-if="selectedRelative" class="border border-gray-400 rounded-3xl grid place-content-center">
+                            <div class="flex flex-col items-center">
+                                <img src="/images/svg/outpatient.svg" alt="">
+                                <span class="font-semibold">{{ selectedRelative.name }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2  rounded-xl p-2 grid grid-cols-2 gap-4">
+                            <h1
+                                class="font-extrabold p-1 font-mono bg-yellow-200 overflow-hidden flex justify-between items-center">
+                                Company Amount <span class="font-semibold bg-slate-700 p-2 text-gray-50">{{ companyAmount
+                                }}</span></h1>
+                            <h1
+                                class="font-extrabold p-1 font-mono overflow-hidden bg-orange-400 flex justify-between items-center">
+                                Employee Amount <span class="font-semibold bg-slate-700 p-2 text-gray-50">{{ employeeAmount
+                                }}</span></h1>
+                        </div>
                     </div>
 
-                    <div v-if="selectedType" class="flex space-x-2">
-                        <span>Max Amount:</span> <span class="font-semibold">{{ selectedType.max_credit_limit }}</span>
-                        <span v-if="selectedType.perPerson">Per Person</span>
-                        <span v-else>Per Family</span>
-                    </div>
-                    <div v-if="currentTypePolicy">
-                        <span>Policy Type:</span> <span class="font-semibold">{{ currentTypePolicy.name }}</span>
-                    </div>
-                    <h1>Amount: <span class="font-semibold">{{ form.amount }}</span></h1>
-                    <h1>Company Amount: <span class="font-semibold">{{ companyAmount }}</span></h1>
-                    <h1>Employee Amount: <span class="font-semibold">{{ employeeAmount }}</span></h1>
 
-                    <div v-if="selectedEmployee">
-                        {{  selectedEmployee.firstname  }} {{  selectedEmployee.middlename  }} {{  selectedEmployee.lastname  }}
-                    </div>
 
-                    <div v-if="selectedRelative">
-                            <span>{{ selectedRelative.name  }}</span>
-                    </div>
+
+
+
 
 
 
                 </div>
             </div>
-        </div>
-    </AppLayout>
-</template>
+    </div>
+</AppLayout></template>
