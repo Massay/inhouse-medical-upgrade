@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
-
+import moment from "moment";
 
 defineProps({
     visits: {
@@ -49,7 +49,10 @@ defineProps({
                     </thead>
                     <tbody class="text-center">
                         <tr v-for="(visit, index) in visits.data" :key="index">
-                            <td class="border p-2">{{ visit.date }}</td>
+                            <td class="border p-2">
+
+                                {{ moment(visit.date).format("DD/MMMM/YYYY") }}
+                            </td>
                             <td class="border">{{ visit.clinic.name }}</td>
                             <td class="border">{{ visit.employee.firstname }} {{ visit.employee.middlename }} {{
                                 visit.employee.lastname }}</td>

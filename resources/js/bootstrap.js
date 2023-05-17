@@ -7,6 +7,14 @@
 import axios from 'axios';
 window.axios = axios;
 
+// import moment from 'moment';
+
+// moment().format();
+
+
+// window.moment = moment
+
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
