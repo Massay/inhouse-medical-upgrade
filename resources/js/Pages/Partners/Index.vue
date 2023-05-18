@@ -80,11 +80,11 @@ defineProps({
                         </table>
                     </div>
                     <div class="flex justify-center space-x-4 py-4">
-                        <!-- {{ clinics.links }} -->
 
                         <template v-for="(link, index) in clinics.links" :key="index">
-                            <Link :href="link.url" v-if="link.url" :class="{  'bg-slate-900 text-gray-50': link.active}" class="bg-slate-400 text-gray-50 p-2 rounded-full h-10 w-auto" v-html="link.label" />
-                            <span v-else  v-html="link.label" class="p-2 cursor-not-allowed rounded-full bg-gray-200"/>
+                            <Link :href="link.url" v-if="link.url" :class="{ 'bg-slate-900 text-gray-50': link.active }"
+                                class="bg-slate-400 text-gray-50 p-2 rounded-full h-10 w-auto" v-html="link.label" />
+                            <span v-else v-html="link.label" class="p-2 cursor-not-allowed rounded-full bg-gray-200" />
                         </template>
 
                     </div>

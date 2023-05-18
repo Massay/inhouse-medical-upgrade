@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\ChartData\YearlyVisitsChartData;
+use App\Http\Controllers\UserUpdatePasswordController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,11 +49,12 @@ Route::middleware([
 
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index');
-        Route::get('edit/{user}', [UserController::class, 'index'])->name('users.edit');
-        Route::get('show/{user}', [UserController::class, 'index'])->name('users.show');
-        Route::get('update/password/{user}', [UserController::class, 'index'])->name('users.update.password');
+        Route::get('edit/{user}', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('edit/{user}', [UserController::class, 'edit'])->name('users.update');
+        Route::get('show/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::get('update/password/{user}', [UserUpdatePasswordController::class, 'index'])->name('users.update.password');
+        Route::put('update/password/{user}', [UserUpdatePasswordController::class, 'update'])->name('users.update.password');
         //users.update.password
-
         //show
     });
 
