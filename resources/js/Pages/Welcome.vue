@@ -6,6 +6,7 @@ defineProps({
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
+    appName: String
 });
 </script>
 
@@ -58,7 +59,7 @@ defineProps({
                                 </svg>
                             </div>
 
-                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">GNPC Staff Medical Data
+                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{appName}}
                             </h2>
 
                             <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">

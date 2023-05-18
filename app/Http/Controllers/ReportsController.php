@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Clinic;
 use App\Models\Employee;
+use App\Models\TreatmentType;
 use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -72,6 +73,8 @@ class ReportsController extends Controller
 
     public function treatmentType()
     {
-        return inertia('Reports/TreatmentTypeReport');
+        return inertia('Reports/TreatmentTypeReport',[
+            'treatment_types' => TreatmentType::select('id','name')->get()
+        ]);
     }
 }

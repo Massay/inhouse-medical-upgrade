@@ -20,9 +20,10 @@ class VisitController extends Controller
 
     public function create()
     {
+        $employees = Employee::all();
         return inertia('Visits/Create', [
             'clinics' => Clinic::all(),
-            'employees' => Employee::with('relatives')->get(),
+            'employees' => $employees->load('relatives'),
             'treatment_types' => TreatmentType::with('policy')->get()
         ]);
     }

@@ -6,13 +6,14 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TreatmentConfigController;
+use App\Http\Controllers\TreatmentTypeReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\ChartData\YearlyVisitsChartData;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +31,7 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'appName' => config('app.name')
     ]);
 });
 
@@ -66,7 +68,6 @@ Route::middleware([
 
 
 
-
     Route::prefix('employees')->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('employees.index');
     });
@@ -79,6 +80,7 @@ Route::middleware([
         Route::get('/family', [ReportsController::class, 'familyReport'])->name('reports.family');
         Route::get('/custom-date', [ReportsController::class, 'customDate'])->name('reports.custom_date');
         Route::get('/treatment_type', [ReportsController::class, 'treatmentType'])->name('reports.treatment_type');
+        Route::get('/treatment_type/{id}', [TreatmentTypeReportController::class, 'showTreatmentTypeDetailsByID'])->name('reports.showTreatmentTypeDetailsByID');
 
 
     });
@@ -92,6 +94,8 @@ Route::middleware([
 
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard',[
+            'chart_data' => YearlyVisitsChartData::data()
+        ]);
     })->name('dashboard');
 });

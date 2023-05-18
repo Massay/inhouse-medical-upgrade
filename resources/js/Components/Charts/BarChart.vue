@@ -1,6 +1,6 @@
 
 <template>
-    <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+    <Bar id="my-chart-id" :options="chartOptions" :data="data" />
 </template>
 
 <script setup>
@@ -9,10 +9,14 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-let chartData = {
-    labels: ['January', 'February', 'March'],
-    datasets: [{ data: [40, 20, 12] }]
-}
+// let chartData = {
+//     labels: ['January', 'February', 'March'],
+//     datasets: [{ data: [40, 20, 12] }]
+// }
+
+defineProps({
+    data: Object
+})
 
 
 

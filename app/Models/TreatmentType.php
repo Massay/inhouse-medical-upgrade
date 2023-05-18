@@ -15,4 +15,9 @@ class TreatmentType extends Model
          return $this->belongsTo(Policy::class);
     }
 
+
+    public function visits(){
+        return $this->hasMany(Visit::class);
+   }
+
 }

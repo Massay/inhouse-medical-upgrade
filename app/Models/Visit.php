@@ -30,6 +30,11 @@ class Visit extends Model
         return $this->belongsTo(Employee::class);
     }
 
+    public function treatment_type()
+    {
+        return $this->belongsTo(TreatmentType::class);
+    }
+
     public function relative()
     {
         return $this->belongsTo(Relative::class);

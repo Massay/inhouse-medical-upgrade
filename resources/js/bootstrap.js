@@ -7,6 +7,11 @@
 import axios from 'axios';
 window.axios = axios;
 
+
+import lodash from 'lodash'
+
+window._ = lodash
+
 // import moment from 'moment';
 
 // moment().format();
