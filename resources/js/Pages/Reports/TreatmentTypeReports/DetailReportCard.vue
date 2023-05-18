@@ -48,7 +48,7 @@ const totalEmployeeAmount =  computed(() => {
                     <td class="border text-center bg-gray-500 text-white">
                         <span class="font-extrabold">{{  new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3, style: 'currency', currency: 'GMD' }).format(totalEmployeeAmount)  }}</span>
                     </td>
-                    <td class="border text-center bg-red-500 text-gray-50">
+                    <td class="border text-center bg-green-500 text-gray-50">
                         <span class="font-extrabold">{{  new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3, style: 'currency', currency: 'GMD' }).format(totalCompanyAmount)  }}</span>
                     </td>
                 </tr>

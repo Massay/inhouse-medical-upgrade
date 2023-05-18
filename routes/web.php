@@ -47,6 +47,12 @@ Route::middleware([
 
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::get('edit/{user}', [UserController::class, 'index'])->name('users.edit');
+        Route::get('show/{user}', [UserController::class, 'index'])->name('users.show');
+        Route::get('update/password/{user}', [UserController::class, 'index'])->name('users.update.password');
+        //users.update.password
+
+        //show
     });
 
 

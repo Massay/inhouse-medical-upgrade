@@ -97,7 +97,7 @@ class YearlyVisitsChartData
                 'labels' => $monthKeys,
                 'datasets' => array(
                     [
-                        'label' => 'Amount spend of Per Day:',
+                        'label' => 'Amount spend of monthly:',
                         'backgroundColor' => $colors,
                         'data' =>  $monthValues
                     ]
