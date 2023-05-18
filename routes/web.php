@@ -50,7 +50,7 @@ Route::middleware([
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index');
         Route::get('edit/{user}', [UserController::class, 'edit'])->name('users.edit');
-        Route::put('edit/{user}', [UserController::class, 'edit'])->name('users.update');
+        Route::put('edit/{user}', [UserController::class, 'update'])->name('users.update');
         Route::get('show/{user}', [UserController::class, 'show'])->name('users.show');
         Route::get('update/password/{user}', [UserUpdatePasswordController::class, 'index'])->name('users.update.password');
         Route::put('update/password/{user}', [UserUpdatePasswordController::class, 'update'])->name('users.update.password');
