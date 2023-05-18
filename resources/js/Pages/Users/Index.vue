@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import moment from "moment";
 defineProps({
     users: {
         type: Object
@@ -19,20 +20,26 @@ defineProps({
         <div class="py-12">
             <div class="pt-12 max-w-7xl mx-auto p-2">
                 <table class="w-full">
-                    <thead class="border">
-                        <th class="border p-2 bg-slate-600 text-gray-50">Id</th>
-                        <th class="border p-2 bg-slate-600 text-gray-50">Name</th>
-                        <th class="border p-2 bg-slate-600 text-gray-50">Email</th>
-                        <th class="border p-2 bg-slate-600 text-gray-50">Created At</th>
-                        <th class="border p-2 bg-slate-600 text-gray-50">Actions</th>
+                    <thead class="border bg-slate-950">
+                        <th class="border p-2  text-gray-50">Id</th>
+                        <th class="border p-2  text-gray-50">Name</th>
+                        <th class="border p-2  text-gray-50">Email</th>
+                        <th class="border p-2  text-gray-50">Created At</th>
+                        <th class="border p-2  text-gray-50">Actions</th>
                     </thead>
                     <tbody>
                         <tr v-for="(user, index) in users.data" class="text-center" :key="index">
                             <td class="border">{{ user.id }}</td>
                             <td class="border"><span class="font-extrabold">{{ user.name }}</span></td>
-                            <td class="border bg-slate-600 text-gray-50"><span class="font-bold">{{ user.email }}</span>
+                            <td class="border">
+                            <span class="font-bold">
+                                    <span class="bg-slate-200 rounded-md p-1"> {{ user.email }}</span>
+                                </span>
                             </td>
-                            <td class="border">{{ user.created_at }}</td>
+                            <td class="border">
+
+                                {{ moment(user.created_at).format("DD/MMMM/YYYY") }}
+                            </td>
                             <td class="border flex justify-between items-center p-2">
                                 <Link as="button" class="" :href="route('users.show', user)" title="User Roles & Details">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
