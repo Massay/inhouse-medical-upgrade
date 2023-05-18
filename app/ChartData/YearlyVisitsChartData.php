@@ -30,7 +30,7 @@ class YearlyVisitsChartData
             ->selectRaw('DATE_FORMAT(date,"%M %Y") as date1, sum(amount) as count')
             ->whereDate('date', '>=', $weekStartDate)
             ->whereDate('date', '<=', $weekEndDate)
-            ->orderBy('date1','desc')
+            ->orderBy('date1', 'desc')
             ->groupBy('date1')
             ->get()
             ->pluck('count', 'date1');
@@ -52,17 +52,17 @@ class YearlyVisitsChartData
         // ->get();
         // dd($visits);
 
-            // ->map(function($item){
-            //     return [
-            //         'id' => $item['count'],
-            //         'name' => $item['month']
-            //     ];
-            // });
-            //->pluck('count', 'month');
+        // ->map(function($item){
+        //     return [
+        //         'id' => $item['count'],
+        //         'name' => $item['month']
+        //     ];
+        // });
+        //->pluck('count', 'month');
 
 
         //    dd($visits);
-           // ->pluck('count', 'month');
+        // ->pluck('count', 'month');
 
         //     function($item){
         //         return $item->date->format('MM');
@@ -70,7 +70,7 @@ class YearlyVisitsChartData
         //    }
 
 
-            // dd($visits);
+        // dd($visits);
 
         $colors = [];
 
@@ -86,21 +86,26 @@ class YearlyVisitsChartData
 
 
 
-        usort($monthKeys, function($a, $b) {
+        usort($monthKeys, function ($a, $b) {
             $dateA = DateTime::createFromFormat('M Y', $a);
             $dateB = DateTime::createFromFormat('M Y', $b);
             return $dateA <=> $dateB;
         });
 
         return [
-            'labels' => $monthKeys,
-            'datasets' => array(
-                [
-                    'label' => 'Amount spend of Per Day:',
-                    'backgroundColor' => $colors,
-                    'data' =>  $monthValues
-                ]
-            )
+            'chart_data' => [
+                'labels' => $monthKeys,
+                'datasets' => array(
+                    [
+                        'label' => 'Amount spend of Per Day:',
+                        'backgroundColor' => $colors,
+                        'data' =>  $monthValues
+                    ]
+                )
+            ],
+            'board' => [
+                array_combine($monthKeys, $monthValues)
+            ]
         ];
     }
 }
