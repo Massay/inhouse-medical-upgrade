@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\ChartData\YearlyVisitsChartData;
+use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserUpdatePasswordController;
 
 /*
@@ -73,6 +74,9 @@ Route::middleware([
         Route::get('/treatment/config', [TreatmentConfigController::class, 'index'])->name('settings.treatment.config');
         Route::get('/treatment/config/add', [TreatmentConfigController::class, 'create'])->name('settings.treatment.add');
         Route::post('/treatment/config/add', [TreatmentConfigController::class, 'store'])->name('settings.treatment.store');
+        Route::get('/roles_and_permissions',[RolePermissionController::class,'index'])->name('settings.role_and_permissions');
+        Route::get('/roles_and_permissions/add',[RolePermissionController::class,'create'])->name('settings.role_and_permissions.add');
+        Route::post('/roles_and_permissions/add',[RolePermissionController::class,'store'])->name('settings.role_and_permissions.store');
     });
 
 

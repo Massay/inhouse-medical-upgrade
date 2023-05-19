@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Users">
+    <AppLayout title="List of Users">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Users
@@ -33,7 +33,7 @@ defineProps({
                             <td class="border"><span class="font-extrabold">{{ user.name }}</span></td>
                             <td class="border">
                             <span class="font-bold">
-                                    <span class="bg-slate-200 rounded-md p-1"> {{ user.email }}</span>
+                                    <span class="bg-blue-500 text-gray-50 rounded-md p-1"> {{ user.email }}</span>
                                 </span>
                             </td>
                             <td class="border">

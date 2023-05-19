@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3';
 const menu = [
     {
          name:'Roles and Permissions',
-         route: 'settings.treatment.config',
+         route: 'settings.role_and_permissions',
     },
     {
         name: 'Treatment Config',

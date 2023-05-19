@@ -44,4 +44,16 @@ class Visit extends Model
     {
         return $this->belongsTo(Clinic::class);
     }
+
+
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        Visit::creating(function($model) {
+            $model->user_created_by = auth()->id();
+        });
+    }
 }
