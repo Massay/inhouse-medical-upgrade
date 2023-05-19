@@ -15,9 +15,12 @@ class ReportsController extends Controller
     {
         return inertia('Reports/Index');
     }
+
     public function monthly()
     {
-        return inertia('Reports/Monthly');
+        return inertia('Reports/Monthly',[
+            'clinics' => Clinic::select('id','name')->get()
+        ]);
     }
 
     public function customDate(Request $request)
