@@ -16,10 +16,20 @@ class ReportsController extends Controller
         return inertia('Reports/Index');
     }
 
-    public function monthly()
+    public function monthly(Request $request)
     {
-        return inertia('Reports/Monthly',[
-            'clinics' => Clinic::select('id','name')->get()
+
+        $data = Visit::query()
+            ->whereYear('date', $request->year_id)
+            ->whereMonth('date', $request->month_id)
+            ->where('clinic_id', $request->clinic_id)
+            ->paginate()
+            ->withQueryString();
+
+        return inertia('Reports/Monthly', [
+            'clinics' => Clinic::select('id', 'name')->get(),
+            'filters' => $request->only(['month_id', 'year_ld', 'clinic_id']),
+            'visits' => $data
         ]);
     }
 
@@ -76,8 +86,8 @@ class ReportsController extends Controller
 
     public function treatmentType()
     {
-        return inertia('Reports/TreatmentTypeReport',[
-            'treatment_types' => TreatmentType::select('id','name')->get()
+        return inertia('Reports/TreatmentTypeReport', [
+            'treatment_types' => TreatmentType::select('id', 'name')->get()
         ]);
     }
 }
