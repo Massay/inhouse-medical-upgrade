@@ -12,17 +12,6 @@ const props = defineProps({
 })
 
 
-// const fullname = computed(() => {
-//     get: () => {
-//          return "Hello World";
-//     }
-//     set: () => {}
-// })
-
-// const fullname = computed(() => {
-//      return props.user.name +' '+ ((props.user.middle_name)?props.user.middle_name: '') +' '+ (props.user.last_name)
-// })
-
 
 </script>
 

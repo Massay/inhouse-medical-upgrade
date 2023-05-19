@@ -20,11 +20,14 @@ class UserUpdatePasswordController extends Controller
 
     public function update(Request $request, User $user)
     {
+
         $request->validate([
             'password' => $this->passwordRules()
         ]);
         $user->update([
             'password' => Hash::make($request['password']),
         ]);
+
+        return to_route('users.index');
     }
 }

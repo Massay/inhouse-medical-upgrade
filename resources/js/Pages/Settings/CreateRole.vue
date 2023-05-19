@@ -22,8 +22,7 @@ function submit(){
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     Roles
                 </h2>
-
-                <Link class="border p-2">List of Role</Link>
+                <Link :href="route('settings.role_and_permissions')" class="border p-2">List of Role</Link>
             </div>
         </template>
 

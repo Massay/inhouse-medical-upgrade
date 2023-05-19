@@ -19,7 +19,7 @@ import { useForm } from '@inertiajs/vue3';
 
     <form @submit.prevent="form.transform((data) => ({
          'updated_roles': allRoles
-    }) ).post(route('assigned.user_role', user.id))" class="border p-2 max-w-2xl mx-auto rounded-xl">
+    }) ).post(route('users.assigned.role', user.id))" class="border p-2 max-w-2xl mx-auto rounded-xl">
         <div class="flex flex-col space-x-1  p-3">
                   <label :for="role.name" v-for="(role, index) in allRoles" :key="index" class="p-2 flex items-center space-x-1">
                        <span class="capitalize"> {{  role.name }}</span>
