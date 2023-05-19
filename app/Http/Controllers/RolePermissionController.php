@@ -30,7 +30,7 @@ class RolePermissionController extends Controller
          app()['cache']->forget('spatie.permission.cache');
 
          DB::transaction(function() use ($request){
-            $role = Role::create(['name' => $request->name]);
+            $role = Role::create(['name' => $request->name, 'guard_name' => 'web' ]);
             $role->syncPermissions($request->selectedPermissions);
          });
 
