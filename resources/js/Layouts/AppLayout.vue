@@ -7,12 +7,20 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 defineProps({
     title: String,
+    can: Object
 });
 
 const showingNavigationDropdown = ref(false);
+
+
+const page = usePage()
+
+const can = computed(() => page.props.can)
 
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
@@ -51,19 +59,19 @@ const logout = () => {
                                 <NavLink :href="route('dashboard')" :active="$page.url.startsWith('/dashboard') ">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('visits.index')" :active="$page.url.startsWith('/visits')">
+                                <NavLink v-if="can.view_visits" :href="route('visits.index')" :active="$page.url.startsWith('/visits')">
                                     Visits
                                 </NavLink>
-                                <NavLink :href="route('partners.index')" :active="$page.url.startsWith('/partners')">
+                                <NavLink v-if="can.view_partners" :href="route('partners.index')" :active="$page.url.startsWith('/partners')">
                                     Partners
                                 </NavLink>
-                                <NavLink :href="route('users.index')" :active="$page.url.startsWith('/users')">
+                                <NavLink v-if="can.view_users" :href="route('users.index')" :active="$page.url.startsWith('/users')">
                                     Users
                                 </NavLink>
-                                <NavLink :href="route('reports.index')" :active="$page.url.startsWith('/reports')">
+                                <NavLink v-if="can.view_reports" :href="route('reports.index')" :active="$page.url.startsWith('/reports')">
                                     Reports
                                 </NavLink>
-                                <NavLink :href="route('settings.index')" :active="$page.url.startsWith('/settings')">
+                                <NavLink v-if="can.view_settings" :href="route('settings.index')" :active="$page.url.startsWith('/settings')">
                                     Settings
                                 </NavLink>
                             </div>

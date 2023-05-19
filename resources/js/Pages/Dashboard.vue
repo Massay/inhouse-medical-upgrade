@@ -5,7 +5,8 @@ import PieChart from '@/Components/Charts/PieChart.vue'
 import LineChart from '@/Components/Charts/LineChart.vue'
 
 defineProps({
-    chart_data: Array
+    chart_data: Array,
+    can: Object
 })
 </script>
 
@@ -33,14 +34,6 @@ defineProps({
 
 
                 <div class="max-w-7xl mx-auto">
-
-
-                        <div>
-
-
-                        </div>
-
-
 
                     <div class="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 gap-4">
 

@@ -17,6 +17,7 @@ use App\ChartData\YearlyVisitsChartData;
 use App\Http\Controllers\AssignedUserRoleController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserUpdatePasswordController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,13 +51,13 @@ Route::middleware([
 
 
     Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('users.index')->can('view users');
+        Route::get('/', [UserController::class, 'index'])->name('users.index')->middleware('can:viewAny,view');
         Route::get('edit/{user}', [UserController::class, 'edit'])->name('users.edit')->can('edit users');
         Route::put('edit/{user}', [UserController::class, 'update'])->name('users.update')->can('edit users');
-        Route::get('show/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::get('show/{user}', [UserController::class, 'show'])->name('users.show')->can('view users');
 
         //assigned.user_role
-        Route::post('assigned/user/roles/{user}', [AssignedUserRoleController::class, 'index'])->name('users.assigned.role');
+        Route::post('assigned/user/roles/{user}', [AssignedUserRoleController::class, 'index'])->name('users.assigned.role')->can('edit users');
 
         Route::get('update/password/{user}', [UserUpdatePasswordController::class, 'index'])->name('users.update.password')->can('edit users');
         Route::put('update/password/{user}', [UserUpdatePasswordController::class, 'update'])->name('users.update.password')->can('edit users');
@@ -113,7 +114,7 @@ Route::middleware([
 
 
 
-    Route::get('/dashboard', function () {
+    Route::get('/dashboard', function (Request $request) {
         return Inertia::render('Dashboard',[
             'chart_data' => YearlyVisitsChartData::data()
         ]);
