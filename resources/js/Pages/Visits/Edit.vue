@@ -306,7 +306,7 @@ function submit() {
                         <div class="flex justify-end">
                             <!-- <Link  method="post"  >Add
                             Patient Record</Link> -->
-                            <button class="bg-slate-800 text-gray-50 font-semibold px-8 py-3 rounded-2xl"
+                            <button class="bg-yellow-800 text-gray-50 font-semibold px-8 py-3 rounded-2xl"
                                 type="submit">Update Patient Record</button>
                         </div>
                     </form>

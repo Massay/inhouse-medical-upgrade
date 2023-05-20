@@ -15,6 +15,9 @@ return new class extends Migration
                 $table->foreignId('user_created_by')
                 ->constrained(table:'users')
                 ->nullable();
+                $table->foreignId('user_updated_by')
+                ->constrained(table:'users')
+                ->nullable();
         });
     }
 

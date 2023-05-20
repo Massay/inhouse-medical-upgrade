@@ -27,6 +27,21 @@ class TreatmentConfigController extends Controller
         ]);
     }
 
+    public function edit(TreatmentType $treatment)
+    {
+
+        return inertia('TreatmentConfig/Edit', [
+            'type' => $treatment,
+            'policies' => Policy::all()
+        ]);
+    }
+
+    public function update(TreatmentConfigFormRequest $request, TreatmentType $treatment){
+        $data = $request->validated();
+         $treatment->update($data);
+         return to_route('settings.treatment.config');
+    }
+
     public function store(TreatmentConfigFormRequest $request)
     {
         $data = $request->validated();

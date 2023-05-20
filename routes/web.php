@@ -76,10 +76,12 @@ Route::middleware([
         Route::post('create', [VisitController::class, 'store'])->name('visits.store')->can('create visits');
     });
 
-    Route::prefix('settings')->group(function () {
-        Route::get('/', [SettingsController::class, 'index'])->name('settings.index')->can('view settings');
+    Route::prefix('settings')->middleware('can:view settings')->group(function () {
+        Route::get('/', [SettingsController::class, 'index'])->name('settings.index');
         Route::get('/treatment/config', [TreatmentConfigController::class, 'index'])->name('settings.treatment.config');
         Route::get('/treatment/config/add', [TreatmentConfigController::class, 'create'])->name('settings.treatment.add');
+        Route::get('/treatment/config/edit/{treatment}', [TreatmentConfigController::class, 'edit'])->name('settings.treatment.edit');
+        Route::put('/treatment/config/update/{treatment}', [TreatmentConfigController::class, 'update'])->name('settings.treatment.update');
         Route::post('/treatment/config/add', [TreatmentConfigController::class, 'store'])->name('settings.treatment.store');
         Route::get('/roles_and_permissions',[RolePermissionController::class,'index'])->name('settings.role_and_permissions');
         Route::get('/roles_and_permissions/show/{role}',[RolePermissionController::class,'show'])->name('settings.role_and_permissions.show');
