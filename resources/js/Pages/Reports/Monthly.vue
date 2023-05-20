@@ -104,7 +104,7 @@ function submit() {
                 <div class="my-2">
 
 
-                    <button @click.prevent="printJS('MonthlyReport', 'html')"
+                    <button @click.prevent="printJS({printable: 'MonthlyReport', type:'html', printCSS:'https://cdn.tailwindcss.com', title:'Monthly Report' })"
                         class="bg-blue-700 px-8 py-2 rounded-md flex items-center space-x-2 text-gray-50">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                             <path fill-rule="evenodd"
@@ -113,59 +113,64 @@ function submit() {
                         </svg>
                         <span>Print</span></button>
                 </div>
+                <div id="MonthlyReport"  class="w-full">
+                <h1 class="hidden print:block print:text-center">Monthly Report</h1>
+                    <table class="w-full">
+                        <thead class="border text-center bg-slate-700 text-gray-50">
+                            <th class="p-2 border">Date</th>
+                            <th class="p-2 border">Clinic</th>
+                            <th class="p-2 border">Employee</th>
+                            <th class="p-2 border">Patient</th>
+                            <th class="p-2 border">Visit Type</th>
+                            <th class="p-2 border">Beneficairy</th>
+                            <th class="p-2 border">Amount</th>
+                            <th class="p-2 border">Company Amount</th>
+                            <th class="p-2 border">Emp Amount</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr v-for="(visit, index) in visits" :key="index">
+                                <td class="border p-2">
 
-                <table class="w-full" id="MonthlyReport">
-                    <thead class="border text-center bg-slate-700 text-gray-50">
-                        <th class="p-2 border">Date</th>
-                        <th class="p-2 border">Clinic</th>
-                        <th class="p-2 border">Employee</th>
-                        <th class="p-2 border">Patient</th>
-                        <th class="p-2 border">Visit Type</th>
-                        <th class="p-2 border">Beneficairy</th>
-                        <th class="p-2 border">Amount</th>
-                        <th class="p-2 border">Company Amount</th>
-                        <th class="p-2 border">Emp Amount</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-for="(visit, index) in visits" :key="index">
-                            <td class="border p-2">
+                                    {{ moment(visit.date).format("DD/MMMM/YYYY") }}
+                                </td>
+                                <td class="border">{{ visit.clinic.name }}</td>
+                                <td class="border">{{ visit.employee.firstname }} {{ visit.employee.middlename }} {{
+                                    visit.employee.lastname }}</td>
+                                <td class="border">{{ visit.patient_name }}</td>
+                                <td class="border">{{ (visit.is_employee_visit == 1) ? 'PHV' : 'BV' }}</td>
+                                <td class="border">{{ (visit.relative) ? visit.relative.name : '-' }}</td>
+                                <td class="border">
 
-                                {{ moment(visit.date).format("DD/MMMM/YYYY") }}
-                            </td>
-                            <td class="border">{{ visit.clinic.name }}</td>
-                            <td class="border">{{ visit.employee.firstname }} {{ visit.employee.middlename }} {{
-                                visit.employee.lastname }}</td>
-                            <td class="border">{{ visit.patient_name }}</td>
-                            <td class="border">{{ (visit.is_employee_visit == 1) ? 'PHV' : 'BV' }}</td>
-                            <td class="border">{{ (visit.relative) ? visit.relative.name : '-' }}</td>
-                            <td class="border">
+                                    <CurrencyFormat :value="visit.amount" />
+                                </td>
+                                <td class="border">
+                                    <CurrencyFormat :value="visit.company_amount" />
+                                </td>
+                                <td class="border">
+                                    <CurrencyFormat :value="visit.employee_amount" />
+                                </td>
 
-                                <CurrencyFormat :value="visit.amount" />
-                            </td>
-                            <td class="border">
-                                <CurrencyFormat :value="visit.company_amount" />
-                            </td>
-                            <td class="border">
-                                <CurrencyFormat :value="visit.employee_amount" />
-                            </td>
+                            </tr>
 
-                        </tr>
+                            <tr>
+                                <td colspan="6" class="border p-2 font-extrabold uppercase bg-slate-800 text-gray-50">Total
+                                </td>
+                                <td class="border bg-yellow-400">
+                                    <CurrencyFormat :value="totalAMount" class="font-extrabold" />
+                                </td>
+                                <td class="border  bg-yellow-700">
+                                    <CurrencyFormat :value="totalCompanyAmount" class="font-extrabold" />
+                                </td>
+                                <td class="border  bg-green-700 text-gray-50">
+                                    <CurrencyFormat :value="totalEmployeeAmount" class="font-extrabold" />
+                                </td>
 
-                        <tr>
-                            <td colspan="6" class="border p-2 font-extrabold uppercase bg-slate-800 text-gray-50">Total</td>
-                            <td class="border bg-yellow-400">
-                                <CurrencyFormat :value="totalAMount" class="font-extrabold" />
-                            </td>
-                            <td class="border  bg-yellow-700">
-                                <CurrencyFormat :value="totalCompanyAmount" class="font-extrabold" />
-                            </td>
-                            <td class="border  bg-green-700 text-gray-50">
-                                <CurrencyFormat :value="totalEmployeeAmount" class="font-extrabold" />
-                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
-    </AppLayout></template>
+    </AppLayout>
+</template>

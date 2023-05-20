@@ -1,6 +1,9 @@
 <template>
     <span>
-        {{  new Intl.NumberFormat('en-GB', { maximumSignificantDigits: 3,  style: 'currency', currency: 'GMD' }).format(value)  }}
+        {{ new Intl.NumberFormat('en-GB', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2, style: 'currency', currency: 'GMD'
+        }).format(value) }}
     </span>
 </template>
 
@@ -9,8 +12,8 @@
 
 defineProps({
     value: {
-         type: Number,
-         required: true
+        type: Number,
+        required: true
     }
 })
 </script>
