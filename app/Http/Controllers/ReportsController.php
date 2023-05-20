@@ -20,16 +20,16 @@ class ReportsController extends Controller
     {
 
         $data = Visit::query()
-            ->whereYear('date', $request->year_id)
-            ->whereMonth('date', $request->month_id)
+
+            ->whereYear('date','=', $request->year_id)
+            ->whereMonth('date','=', $request->month_id)
             ->where('clinic_id', $request->clinic_id)
-            ->paginate()
-            ->withQueryString();
+            ->get();
 
         return inertia('Reports/Monthly', [
             'clinics' => Clinic::select('id', 'name')->get(),
             'filters' => $request->only(['month_id', 'year_ld', 'clinic_id']),
-            'visits' => $data
+            'visits' => $data->load('employee', 'clinic', 'relative')
         ]);
     }
 
