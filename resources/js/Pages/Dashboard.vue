@@ -45,7 +45,7 @@ watch(reportType, (reportType, prevReportType) => {
                     <select name="" id="" class="rounded-md" v-model="reportType">
                         <option value="null" disabled>Report Type</option>
                         <option :value="item.id"
-                            v-for="(item) in [{ id: 1, name: 'Monthly Spending' }, { id: 2, name: 'Monthly Spending By Clinic' }]">
+                            v-for="(item) in [{ id: 1, name: 'Monthly Spending' }, { id: 2, name: 'Yearly Spending By Clinic' }]">
                             {{ item.name }}
                         </option>
                     </select>
