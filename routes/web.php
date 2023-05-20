@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\ChartData\YearlyVisitsChartData;
 use App\Http\Controllers\AssignedUserRoleController;
+use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserUpdatePasswordController;
 use Illuminate\Http\Request;
@@ -94,6 +95,17 @@ Route::middleware([
 
     Route::prefix('employees')->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::get('/create', [EmployeeController::class, 'create'])->name('employees.create');
+        Route::post('/create', [EmployeeController::class, 'store'])->name('employees.store');
+        Route::get('/show/{employee}', [EmployeeController::class, 'show'])->name('employees.show');
+        Route::get('/edit/{employee}', [EmployeeController::class, 'edit'])->name('employees.edit');
+        Route::put('/edit/{employee}', [EmployeeController::class, 'updaye'])->name('employees.update');
+        Route::get('/{employee}/relatives', [RelativeController::class, 'index'])->name('employees.relative.index');
+        Route::get('/relatives/create', [RelativeController::class, 'create'])->name('employees.relative.create');
+        Route::post('/relatives/create', [RelativeController::class, 'create'])->name('employees.relative.store');
+        Route::get('/relatives/edit/{relative}', [RelativeController::class, 'index'])->name('employees.relative.edit');
+        Route::put('/relatives/edit/{relative}', [RelativeController::class, 'index'])->name('employees.relative.update');
+
     });
 
 

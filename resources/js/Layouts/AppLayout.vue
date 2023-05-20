@@ -68,6 +68,9 @@ const logout = () => {
                                 <NavLink v-if="can.view_users" :href="route('users.index')" :active="$page.url.startsWith('/users')">
                                     Users
                                 </NavLink>
+                                <NavLink v-if="can.view_users" :href="route('employees.index')" :active="$page.url.startsWith('/employees')">
+                                    Employee
+                                </NavLink>
                                 <NavLink v-if="can.view_reports" :href="route('reports.index')" :active="$page.url.startsWith('/reports')">
                                     Reports
                                 </NavLink>

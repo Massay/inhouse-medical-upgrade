@@ -56,8 +56,8 @@ class Visit extends Model
             $model->user_created_by = auth()->id();
         });
 
-        Visit::updating(function($model){
-            $model->user_updated_by = auth()->id();
-        });
+        // Visit::updating(function($model){
+        //     $model->user_updated_by = auth()->id();
+        // });
     }
 }
