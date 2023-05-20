@@ -9,5 +9,9 @@ class Clinic extends Model
 {
     use HasFactory;
 
+    public function visits(){
+        return $this->hasMany(Visit::class);
+    }
+
 
 }

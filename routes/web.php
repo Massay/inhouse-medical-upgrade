@@ -1,5 +1,6 @@
 <?php
 
+use App\ChartData\YearlyVisitsByClinicChartData;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PartnerController;
@@ -115,8 +116,13 @@ Route::middleware([
 
 
     Route::get('/dashboard', function (Request $request) {
+
+        $data = ($request->reportType == 2) ? YearlyVisitsByClinicChartData::data() : YearlyVisitsChartData::data() ;
+
+        // dd($clinics);
         return Inertia::render('Dashboard',[
-            'chart_data' => YearlyVisitsChartData::data()
+            'chart_data' =>     $data ,
+            'filters' =>  $request->only(['reportType'])
         ]);
     })->name('dashboard');
 });

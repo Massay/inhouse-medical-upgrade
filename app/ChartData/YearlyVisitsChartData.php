@@ -15,10 +15,6 @@ class YearlyVisitsChartData
         dd("this is monthly chart data");
     }
 
-    public  static function  random_color()
-    {
-        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-    }
 
     private function customSort($a, $b)
     {
@@ -49,43 +45,10 @@ class YearlyVisitsChartData
         $colors = [];
 
         for ($i = 0; $i < count($visits); $i++) {
-            $colors[] = self::random_color();
+            $colors[] = RandomColor::random_color();
         }
 
-        // $collection = $visits;
-        // $sortedCollection = $collection->sortBy(function ($value, $key) {
-        //     // Extract month and year from the key
-        //     $monthYear = explode(" ", $key);
-        //     $month = $monthYear[0];
-        //     $year = $monthYear[1];
-
-        //     // Assign numeric values to months for sorting
-        //     $months = [
-        //         "January" => 1,
-        //         "February" => 2,
-        //         "March" => 3,
-        //         "April" => 4,
-        //         "May" => 5,
-        //         "June" => 6,
-        //         "July" => 7,
-        //         "August" => 8,
-        //         "September" => 9,
-        //         "October" => 10,
-        //         "November" => 11,
-        //         "December" => 12
-        //     ];
-
-        //     // Calculate a sortable value based on year and month
-        //     $sortableValue = $year * 100 + $months[$month];
-
-        //     return $sortableValue;
-        // });
-
-        // $sortedArray = $sortedCollection->all();
-
         $sortedArray = SortChartData::sort($visits);
-
-
 
 
         return [

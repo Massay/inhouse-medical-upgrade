@@ -3,11 +3,31 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import BarChart from '../Components/Charts/BarChart.vue';
 import PieChart from '@/Components/Charts/PieChart.vue'
 import LineChart from '@/Components/Charts/LineChart.vue'
-
-defineProps({
+import { ref, watch } from 'vue'
+import { router } from '@inertiajs/vue3'
+const props = defineProps({
     chart_data: Array,
-    can: Object
+    filters: Object
 })
+
+const reportType = ref(props.filters.reportType || 1);
+
+
+watch(reportType, (reportType, prevReportType) => {
+    console.log('reportType')
+    router.get('/dashboard', {
+        reportType: reportType
+    })
+})
+
+
+// watch(
+//     () => reportType,
+//     (reportType) => {
+
+//     })
+
+
 </script>
 
 <template>
@@ -22,10 +42,10 @@ defineProps({
             <div class="max-w-[90%]  mx-auto sm:px-6 lg:px-8">
 
                 <div class="flex justify-end my-4">
-                    <select name="" id="" class="rounded-md">
+                    <select name="" id="" class="rounded-md" v-model="reportType">
                         <option value="null" disabled>Report Type</option>
-                        <option value=""
-                            v-for="(item) in [{ id: 1, name: 'Monthly Report' }, { id: 2, name: 'Yearly Report' }]">
+                        <option :value="item.id"
+                            v-for="(item) in [{ id: 1, name: 'Monthly Spending' }, { id: 2, name: 'Monthly Spending By Clinic' }]">
                             {{ item.name }}
                         </option>
                     </select>
