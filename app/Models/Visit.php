@@ -53,7 +53,7 @@ class Visit extends Model
         parent::boot();
 
         Visit::creating(function($model) {
-            $model->user_created_by = auth()->id();
+            $model->user_id = auth()->id();
         });
 
         // Visit::updating(function($model){

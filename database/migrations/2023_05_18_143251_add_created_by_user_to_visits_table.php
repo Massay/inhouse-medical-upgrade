@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('visits', function (Blueprint $table) {
-                $table->foreignId('user_created_by')
-                ->constrained(table:'users')
-                ->nullable();
-                $table->foreignId('user_updated_by')
-                ->constrained(table:'users')
-                ->nullable();
+            // $table->integer('user_id')->nullable();
+            // $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->nullable();
+                // $table->foreignId('user_created_by')
+                // ->constrained(table:'users')
+                // ->nullable();
         });
     }
 

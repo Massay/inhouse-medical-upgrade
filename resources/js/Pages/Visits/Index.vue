@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
 import moment from "moment";
+import CurrencyFormat from '@/Components/CurrencyFormat.vue'
 
 defineProps({
     visits: {
@@ -71,9 +72,16 @@ defineProps({
                             <td class="border">{{ visit.patient_name }}</td>
                             <td class="border">{{ (visit.is_employee_visit == 1) ? 'PHV' : 'BV' }}</td>
                             <td class="border">{{ (visit.relative) ? visit.relative.name : '-' }}</td>
-                            <td class="border">{{ visit.amount }}</td>
-                            <td class="border">{{ visit.company_amount }}</td>
-                            <td class="border">{{ visit.employee_amount }}</td>
+                            <td class="border">
+                                <CurrencyFormat :value="visit.amount"/>
+                            </td>
+                            <td class="border">
+
+                                <CurrencyFormat :value="visit.company_amount"/>
+                            </td>
+                            <td class="border">
+                                    <CurrencyFormat :value="visit.employee_amount"/>
+                            </td>
                             <td class="border flex items-center justify-between">
                                 <Link as="button" class="text-yellow-600" :href="route('visits.show', visit.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
