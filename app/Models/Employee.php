@@ -9,6 +9,17 @@ class Employee extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'firstname',
+        'middlename',
+        'lastname',
+        'no',
+        'department',
+        'email',
+        'job_title',
+        'address'
+    ];
+
     public function relatives(){
          return $this->hasMany(Relative::class);
     }

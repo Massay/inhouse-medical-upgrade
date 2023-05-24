@@ -19,6 +19,7 @@ use App\Http\Controllers\AssignedUserRoleController;
 use App\Http\Controllers\RelativeController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserUpdatePasswordController;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Http\Request;
 
 /*
@@ -94,12 +95,18 @@ Route::middleware([
 
 
     Route::prefix('employees')->group(function () {
-        Route::get('/', [EmployeeController::class, 'index'])->name('employees.index');
-        Route::get('/create', [EmployeeController::class, 'create'])->name('employees.create');
-        Route::post('/create', [EmployeeController::class, 'store'])->name('employees.store');
-        Route::get('/show/{employee}', [EmployeeController::class, 'show'])->name('employees.show');
-        Route::get('/edit/{employee}', [EmployeeController::class, 'edit'])->name('employees.edit');
-        Route::put('/edit/{employee}', [EmployeeController::class, 'updaye'])->name('employees.update');
+        Route::post('/', [EmployeeController::class, 'store'])->name('employees.store')->can('view employees');
+        Route::get('/', [EmployeeController::class, 'index'])->name('employees.index')->can('view employees');
+        Route::get('/create', [EmployeeController::class, 'create'])->name('employees.create')->can('create employees');
+        Route::post('/create', [EmployeeController::class, 'store'])
+            ->middleware([HandlePrecognitiveRequests::class])
+            ->name('employees.store')->can('create employees');
+        Route::get('/show/{employee}', [EmployeeController::class, 'show'])->name('employees.show')->can('view employees');
+        Route::delete('/delete/{employee}', [EmployeeController::class, 'delete'])->name('employees.delete')->can('delete employees');
+        Route::get('/edit/{employee}', [EmployeeController::class, 'edit'])->name('employees.edit')->can('edit employees');
+        Route::put('/edit/{employee}', [EmployeeController::class, 'updaye'])->name('employees.update')->can('edit employees');
+
+
         Route::get('/{employee}/relatives', [RelativeController::class, 'index'])->name('employees.relative.index');
         Route::get('/relatives/create', [RelativeController::class, 'create'])->name('employees.relative.create');
         Route::post('/relatives/create', [RelativeController::class, 'create'])->name('employees.relative.store');

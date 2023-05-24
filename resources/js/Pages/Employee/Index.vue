@@ -2,8 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
 import moment from 'moment';
+// import { computed } from 'vue'
+
+// const page = usePage()
+
+// const can = computed(() => page.props.can)
 defineProps({
-    employees: Array
+    employees: Array,
+    can: Object
 })
 </script>
 
@@ -14,7 +20,7 @@ defineProps({
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     Employees
                 </h2>
-                <Link :href="route('employees.create')" class="border px-8 py-2 flex items-center">
+                <Link v-if="can.create.employees" :href="route('employees.create')" class="border px-8 py-2 flex items-center">
                 <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path fill-rule="evenodd"
                             d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
@@ -87,7 +93,9 @@ defineProps({
 
 
                                     </Link>
-                                    <Link as="button" class="text-red-600" :href="route('visits.show', employee)">
+                                    <Link as="button" method="delete"
+                                        :title="'delete ' + employee.firstname + ' ' + employee.lastname"
+                                        class="text-red-600" :href="route('employees.delete', employee)">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="w-6 h-6">
                                         <path fill-rule="evenodd"
@@ -111,7 +119,7 @@ defineProps({
                         </template>
 
                     </div>
+                </div>
             </div>
         </div>
-    </div>
-</AppLayout></template>
+    </AppLayout></template>

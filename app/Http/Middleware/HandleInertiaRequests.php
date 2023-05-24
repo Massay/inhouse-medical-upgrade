@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
                 'view_visits' => $request->user()->can('view visits'),
                 'view_reports' => $request->user()->can('view reports'),
                 'view_settings' => $request->user()->can('view settings'),
+                'view_employees' => $request->user()->can('view employees')
             ] : null
         ]);
     }
