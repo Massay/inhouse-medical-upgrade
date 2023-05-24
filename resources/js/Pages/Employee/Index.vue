@@ -2,15 +2,32 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
 import moment from 'moment';
-// import { computed } from 'vue'
-
+import { ref, watch } from 'vue'
+import { router } from '@inertiajs/vue3'
 // const page = usePage()
 
 // const can = computed(() => page.props.can)
-defineProps({
+const props = defineProps({
     employees: Array,
-    can: Object
+    actions: Object,
+    filters: Object
 })
+
+const search = ref(props.filters.search)
+
+
+watch(
+    search,
+    _.debounce((value) => {
+        router.get(
+            "/employees",
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    }, 500))
 </script>
 
 <template>
@@ -20,7 +37,8 @@ defineProps({
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     Employees
                 </h2>
-                <Link v-if="can.create.employees" :href="route('employees.create')" class="border px-8 py-2 flex items-center">
+                <Link v-if="actions.create.employees" :href="route('employees.create')"
+                    class="border px-8 py-2 flex items-center">
                 <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path fill-rule="evenodd"
                             d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
@@ -32,14 +50,16 @@ defineProps({
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white p-2">
+                <div class="sm:rounded-lg">
+                    <div class="flex my-2">
 
+                        <input type="text" v-model="search" placeholder="Search by Name" class="w-full rounded-md">
+                    </div>
                     <table class="w-full">
                         <thead class="border text-center bg-slate-700 text-gray-50">
                             <th class="p-2 border">#</th>
                             <th class="p-2 border">Created Date</th>
-
                             <th class="p-2 border">Fullname</th>
                             <th class="p-2 border">Position</th>
                             <th class="p-2 border">Official Email</th>
@@ -122,4 +142,5 @@ defineProps({
                 </div>
             </div>
         </div>
-    </AppLayout></template>
+    </AppLayout>
+</template>

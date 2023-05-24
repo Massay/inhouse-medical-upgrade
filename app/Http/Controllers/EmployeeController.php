@@ -11,8 +11,24 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         return inertia('Employee/Index',[
-            'employees' => Employee::latest()->paginate(25),
-            'can' => [
+            'employees' =>
+
+            Employee::query()
+            ->when($request->search, function($query,$search){
+                $query
+                    ->orWhere('firstname','LIKE','%'.$search.'%')
+                    ->orWhere('middlename','LIKE','%'.$search.'%')
+                    ->orWhere('lastname','LIKE','%'.$search.'%')
+                    ->orWhere('department','LIKE','%'.$search.'%')
+                    ->orWhere('job_title','LIKE','%'.$search.'%')
+                    ->orWhere('email','LIKE','%'.$search.'%');
+            })
+            ->latest()
+            ->paginate(25)
+
+            ,
+            'filters' => $request->only(['search']),
+            'actions' => [
                 'create' =>[
                     'employees' => $request->user()->can('create employees')
                 ]
