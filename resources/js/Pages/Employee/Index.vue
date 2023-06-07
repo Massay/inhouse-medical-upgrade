@@ -54,7 +54,7 @@ watch(
                 <div class="sm:rounded-lg">
                     <div class="flex my-2">
 
-                        <input type="text" v-model="search" placeholder="Search by Name" class="w-full rounded-md">
+                        <input type="text" v-model="search" placeholder="Search by Name, Position, Department or Email" class="w-full rounded-md">
                     </div>
                     <table class="w-full">
                         <thead class="border text-center bg-slate-700 text-gray-50">
@@ -77,7 +77,7 @@ watch(
                                 <td class="border">{{ employee.firstname }} {{ employee.middlename }} {{
                                     employee.lastname }}</td>
                                 <td class="border">{{ employee.job_title }}</td>
-                                <td class="border">{{ employee.company_email }}</td>
+                                <td class="border">{{ employee.email }}</td>
                                 <td class="border">{{ employee.department }}</td>
                                 <td class="border flex items-center justify-between">
                                     <Link class="text-yellow-600" :href="route('employees.show', employee)">
