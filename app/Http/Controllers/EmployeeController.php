@@ -41,7 +41,11 @@ class EmployeeController extends Controller
     }
 
     public function show(Employee $employee){
-        return $employee;
+        $employee->load('relatives');
+        $employee->load('visits_top_10');
+        return inertia('Employee/Show',[
+                'employee' => $employee
+        ]);
     }
 
     public function create(){

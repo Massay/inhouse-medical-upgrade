@@ -131,7 +131,6 @@ Route::middleware([
     Route::prefix('partners')->group(function () {
         Route::get('/', [ClinicController::class, 'index'])->name('partners.index')->can('view partners');
         Route::get('create', [ClinicController::class, 'create'])->name('partners.create')->can('view partners');
-
         Route::post('create', [ClinicController::class, 'store'])->name('partners.store')->can('view partners');
 
     });
