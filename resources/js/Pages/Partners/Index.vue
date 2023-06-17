@@ -13,9 +13,12 @@ defineProps({
 <template>
     <AppLayout title="Partners">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+           <div class="flex justify-between">
+            <h2 class="font-bold text-xl text-gray-800 leading-tight">
                 Partners
             </h2>
+            <Link :href="route('partners.create')" class="px-8 py-2 border font-extrabold">Add Partner</Link>
+           </div>
         </template>
 
         <div class="py-12">
