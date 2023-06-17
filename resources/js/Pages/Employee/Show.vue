@@ -28,24 +28,28 @@ defineProps({
             </div>
         </template>
 
-        <div class="py-12 grid grid-cols-4 px-2 gap-2">
-            <div class="border">
-                <h1>Summary About <span class="capitalize font-extrabold md:text-lg">{{ employee.firstname }} {{
+        <div class="py-12 grid grid-cols-4 px-8 gap-2">
+            <div class="border p-2">
+                <h1 class="text-lg block p-2 text-center">Summary About <span class="capitalize block text-2xl font-extrabold md:text-lg">{{ employee.firstname }} {{
                     employee.middlename }} {{ employee.lastname }}</span></h1>
                 <div>
-                    <table>
+                    <table class="w-full">
                         <thead class="bg-orange-400">
-                            <th class="border"># of Relatives</th>
+                            <th class="border p-2"># of Relatives</th>
                             <th class="border">Employee Number</th>
                         </thead>
                         <tbody>
                             <tr class="border text-center">
-                                <td class="border">
-                                    <div class="bg-slate-900 text-gray-50 md:text-2xl">
+                                <td class="border p-2">
+                                    <div class="bg-slate-900 p-2 text-gray-50 md:text-2xl">
                                         {{ employee.relatives.length }}
                                     </div>
                                 </td>
-                                <td class="border">{{ employee.no }}</td>
+                                <td class="border p-2">
+                                  <div class="border p-2 font-extrabold bg-green-500 text-gray-50" >
+                                    {{ employee.no }}
+                                  </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -53,14 +57,14 @@ defineProps({
             </div>
             <div class="border">
                 <h1 class="font-extrabold text-center text-lg bg-slate-600 text-gray-50">Relatives</h1>
-                <ul class="border p-2 flex space-x-2">
+                <ul class="border p-2 flex flex-col space-y-2">
                     <li v-for="(r, index) in employee.relatives" :key="index" class="border p-2">
                         {{ r.name }}
                     </li>
                 </ul>
             </div>
             <div class="border col-span-2">
-                <h1 class="text-center bg-slate-700 text-gray-50 font-extrabold text-lg">Last 10 Visits Summary</h1>
+                <h1 class="text-center bg-slate-700 text-gray-50 font-extrabold text-lg">Last 10 Visits</h1>
                 <table class="w-full p-2">
                     <thead class="bg-yellow-800 text-gray-50">
                         <th class="border">Clinic</th>
