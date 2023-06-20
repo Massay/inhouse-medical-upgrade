@@ -21,6 +21,7 @@ class EmployeeController extends Controller
                     ->orWhere('lastname','LIKE','%'.$search.'%')
                     ->orWhere('department','LIKE','%'.$search.'%')
                     ->orWhere('job_title','LIKE','%'.$search.'%')
+                    ->orWhere('no','LIKE','%'.$search.'%')
                     ->orWhere('email','LIKE','%'.$search.'%');
             })
             ->latest()
@@ -38,6 +39,10 @@ class EmployeeController extends Controller
 
     public function edit(Request $request, Employee $employee){
             return 'edit';
+    }
+
+    public function getData(){
+            return "This is a test";
     }
 
     public function show(Employee $employee){

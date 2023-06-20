@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
+import VueMultiselect from 'vue-multiselect'
 
 
 import { ref, watch, computed } from 'vue'
@@ -53,7 +54,15 @@ let companyAmount = 0
 let employeeAmount = 0
 let selectedEmployee = null;
 
-let selectedRelative = null
+
+
+
+let selected = null;
+
+
+const options = ['list', 'of', 'options']
+
+let selectedRelative = null;
 
 
 watch(treatment_type, ((newVal, oldVal) => {
@@ -101,7 +110,7 @@ watch(
     () => form.employee_id, // use a getter like this
     (employee_id) => {
 
-        selectedEmployee = props.employees.find((item) => item.id == employee_id)
+        selectedEmployee = props.employees.find((item) => item.id == employee_id.id)
         form.relative_id = null //
     }
 )
@@ -130,11 +139,13 @@ function submit() {
         .transform((data) => ({
             ...data,
             policy_id: (currentTypePolicy) ? currentTypePolicy.id : null,
+            employee_id: form.employee_id.id,
+            clinic_id: form.clinic_id.id,
             company_amount: companyAmount,
             employee_amount: employeeAmount,
             is_employee_visit: (form.visit_type_id == 1) ? 1 : 0,
             treatment_type_id: treatment_type.value,
-            exceeded_amount: (selectedType) ? (form.amount  > selectedType.max_credit_limit) ? form.amount  - selectedType.max_credit_limit : null : null,
+            exceeded_amount: (selectedType) ? (form.amount > selectedType.max_credit_limit) ? form.amount - selectedType.max_credit_limit : null : null,
             patient_name: (form.visit_type_id == 1) ? ((selectedEmployee) ? selectedEmployee.firstname + ' ' + ((selectedEmployee.middlename) ? selectedEmployee.middlename : '') + ' ' + selectedEmployee.lastname : '') : (selectedRelative) ? selectedRelative.name : ''
 
         }))
@@ -142,6 +153,8 @@ function submit() {
 }
 
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <template>
     <AppLayout title="Create Visits">
@@ -171,24 +184,37 @@ function submit() {
                 <div class="">
                     {{ errors }}
 
+
+
+
+
                     <form @submit.prevent="submit" class="flex flex-col space-y-2">
+
+
+
+
+
                         <div class="flex space-x-2">
                             <div class="flex-1">
 
-                                <select name="" id="" class="w-full" v-model="form.clinic_id">
+                                <!-- <select name="" id="" class="w-full" v-model="form.clinic_id">
                                     <option value="null" disabled>Select a Clinic</option>
 
                                     <option :value="clinic.id" v-for="(clinic, index) in clinics" :key="index">
                                         {{ clinic.name }}
                                     </option>
-                                </select>
+                                </select> -->
+                                <VueMultiselect v-model="form.clinic_id" label="name" track-by="id"
+                                placeholder="Select a Clinic" :options="clinics"
+                                class="border border-gray-600 rounded-md">
+                            </VueMultiselect>
                             </div>
                             <div class="flex-1">
                                 <input class="w-full" type="date" placeholder="date" v-model="form.date">
                             </div>
                         </div>
                         <div class="flex">
-                            <select name="" id="" class="w-full" v-model="form.employee_id">
+                            <!-- <select name="" id="" class="w-full" v-model="form.employee_id">
                                 <option value="null" disabled>Select Employee</option>
 
                                 <option :value="employee.id" v-for="(employee, index) in employees" :key="index">
@@ -196,7 +222,12 @@ function submit() {
                                         employee.no
                                     }}
                                 </option>
-                            </select>
+                            </select> -->
+
+                            <VueMultiselect v-model="form.employee_id" label="full_name" track-by="id"
+                                placeholder="Select Employee" :options="employees"
+                                class="border border-gray-600 rounded-md">
+                            </VueMultiselect>
                         </div>
 
                         <div class="flex space-x-2">
@@ -238,6 +269,9 @@ function submit() {
                                 </option>
                             </select>
 
+
+
+
                         </div>
 
                         <div class="flex justify-end">
@@ -252,17 +286,18 @@ function submit() {
 
                 <div class="text-xl rounded-xl p-2">
                     <h1 class="text-center font-semibold">Display Data</h1>
-                    <span  v-if="selectedType && (form.amount > selectedType.max_credit_limit)" class="flex flex-col items-center justify-center border my-2 border-red-600 bg-red-100 p-2 rounded-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-red-700">
+                    <span v-if="selectedType && (form.amount > selectedType.max_credit_limit)"
+                        class="flex flex-col items-center justify-center border my-2 border-red-600 bg-red-100 p-2 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            class="w-6 h-6 text-red-700">
                             <path fill-rule="evenodd"
                                 d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <p
-                        class="font-semibold overflow-hidden  w-full  text-gray-800 text-center  ">
-                        Amount exceeded by <span class="font-extrabold bg-slate-950 text-gray-50 p-1 ">{{ form.amount -
-                            selectedType.max_credit_limit }}</span>
-                    </p>
+                        <p class="font-semibold overflow-hidden  w-full  text-gray-800 text-center  ">
+                            Amount exceeded by <span class="font-extrabold bg-slate-950 text-gray-50 p-1 ">{{ form.amount -
+                                selectedType.max_credit_limit }}</span>
+                        </p>
                     </span>
 
                     <div class="border border-gray-500 rounded-3xl grid grid-cols-2 gap-3 p-4">
@@ -336,5 +371,6 @@ function submit() {
 
                 </div>
             </div>
-    </div>
-</AppLayout></template>
+        </div>
+    </AppLayout>
+</template>

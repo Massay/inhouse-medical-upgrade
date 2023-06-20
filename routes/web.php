@@ -97,6 +97,7 @@ Route::middleware([
     Route::prefix('employees')->group(function () {
         Route::post('/', [EmployeeController::class, 'store'])->name('employees.store')->can('view employees');
         Route::get('/', [EmployeeController::class, 'index'])->name('employees.index')->can('view employees');
+        Route::get('get/data', [EmployeeController::class, 'getData'])->name('employees.get.data')->can('view employees');
         Route::get('/create', [EmployeeController::class, 'create'])->name('employees.create')->can('create employees');
         Route::post('/create', [EmployeeController::class, 'store'])
             ->middleware([HandlePrecognitiveRequests::class])

@@ -9,6 +9,8 @@ class Employee extends Model
 {
     use HasFactory;
 
+    protected $appends = ['full_name'];
+
     protected $fillable = [
         'firstname',
         'middlename',
@@ -19,6 +21,10 @@ class Employee extends Model
         'job_title',
         'address'
     ];
+
+    public function getFullNameAttribute(){
+         return $this->firstname. ' '. $this->middlename.' '. $this->lastname;
+    }
 
     public function relatives(){
          return $this->hasMany(Relative::class);
